@@ -1,2 +1,7 @@
 Camel Tutorial
 
+step0 - Simple camel example
+ - Simple camel routing with exception handling
+ - Exceptions and Errors handled and ResultCode is set based on exception type
+ - Tests checks all types of exceptions and successful test case
+

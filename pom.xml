@@ -27,6 +27,9 @@
         <spring.scope>compile</spring.scope>
         <spring-test.scope>test</spring-test.scope>
 
+        <camel.version>2.11.4</camel.version>
+        <camel.scope>compile</camel.scope>
+
         <!--Plugin section-->
         <maven-clean-plugin.version>2.5</maven-clean-plugin.version>
         <maven-install-plugin.version>2.5.1</maven-install-plugin.version>
@@ -70,6 +73,25 @@
                 <version>${spring.version}</version>
                 <scope>${spring-test.scope}</scope>
             </dependency>
+            <!--Camel-->
+            <dependency>
+                <groupId>org.apache.camel</groupId>
+                <artifactId>camel-core</artifactId>
+                <version>${camel.version}</version>
+                <scope>${camel.scope}</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.camel</groupId>
+                <artifactId>camel-spring</artifactId>
+                <version>${camel.version}</version>
+                <scope>${camel.scope}</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.camel</groupId>
+                <artifactId>camel-context</artifactId>
+                <version>${camel.version}</version>
+                <scope>${camel.scope}</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -81,12 +103,22 @@
             <version>${junit.version}</version>
             <scope>${junit.scope}</scope>
         </dependency>
-        <!--Slf4j-->
+        <!--Log4j - http://logging.apache.org/log4j/-->
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+        <!--Slf4j - http://www.slf4j.org/-->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>${slf4j.version}</version>
-            <scope>${slf4j.scope}</scope>
         </dependency>
     </dependencies>
 

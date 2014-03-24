@@ -2,7 +2,40 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
-    <context:annotation-config />
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+       http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+
+    <context:annotation-config/>
     <context:component-scan base-package="com.dimas.simple"/>
+
+    <bean id="simpleRequestHandler" class="com.dimas.simple.handlers.SimpleRequestHandler"/>
+    <bean id="simpleFinalizerHandler" class="com.dimas.simple.handlers.SimpleFinalizerHandler"/>
+    <bean id="simpleExceptionHandler" class="com.dimas.simple.handlers.SimpleExceptionHandler"/>
+    <bean id="simpleErrorHandler" class="com.dimas.simple.handlers.SimpleErrorHandler"/>
+
+    <camelContext id="simpleCamelContext" xmlns="http://camel.apache.org/schema/spring">
+        <routeContextRef ref="simpleRouteContext"/>
+    </camelContext>
+
+    <routeContext id="simpleRouteContext" xmlns="http://camel.apache.org/schema/spring">
+        <route id="simpleRequestResponseRoute">
+            <from uri="direct:start"/>
+            <doTry>
+                <bean ref="simpleRequestHandler"/>
+                <doCatch>
+                    <exception>com.dimas.simple.exceptions.AbstractSimpleException</exception>
+                    <bean ref="simpleExceptionHandler"/>
+                </doCatch>
+                <doCatch >
+                    <exception>java.lang.Exception</exception>
+                    <bean ref="simpleErrorHandler"/>
+                </doCatch>
+                <doFinally>
+                    <bean ref="simpleFinalizerHandler"/>
+                </doFinally>
+            </doTry>
+            <to uri="mock:result"/>
+        </route>
+
+    </routeContext>
 </beans>
